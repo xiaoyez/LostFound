@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lostfound.lost_found.dao.PickInformationMapper">
+  <resultMap id="BaseResultMap" type="com.lostfound.lost_found.pojo.PickInformation">
+    <id column="User_ID" jdbcType="INTEGER" property="userId" />
+    <id column="Pick_ID" jdbcType="INTEGER" property="pickId" />
+    <result column="Pick_Name" jdbcType="VARCHAR" property="pickName" />
+    <result column="Pick_Type" jdbcType="VARCHAR" property="pickType" />
+    <result column="Pick_Date" jdbcType="TIMESTAMP" property="pickDate" />
+    <result column="Pick_Place" jdbcType="VARCHAR" property="pickPlace" />
+    <result column="Pick_Phone" jdbcType="VARCHAR" property="pickPhone" />
+    <result column="Report_Date" jdbcType="TIMESTAMP" property="reportDate" />
+    <result column="Pick_Trait" jdbcType="VARCHAR" property="pickTrait" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    User_ID, Pick_ID, Pick_Name, Pick_Type, Pick_Date, Pick_Place, Pick_Phone, Report_Date, 
+    Pick_Trait
+  </sql>
+  <select id="selectByExample" parameterType="com.lostfound.lost_found.pojo.PickInformationExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from pick_information
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="com.lostfound.lost_found.pojo.PickInformationKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pick_information
+    where Pick_ID = #{pickId,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectAllByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select
+    <include refid="Base_Column_List" />
+    from pick_information
+    where User_ID = #{userId,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectNewistPickInformation" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from pick_information
+    group by Report_Date DESC limit 5
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="com.lostfound.lost_found.pojo.PickInformationKey">
+    delete from pick_information
+    where Pick_ID = #{pickId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.lostfound.lost_found.pojo.PickInformationExample">
+    delete from pick_information
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.lostfound.lost_found.pojo.PickInformation">
+    insert into pick_information (User_ID, Pick_ID, Pick_Name, 
+      Pick_Type, Pick_Date, Pick_Place, 
+      Pick_Phone, Report_Date, Pick_Trait
+      )
+    values (#{userId,jdbcType=INTEGER}, #{pickId,jdbcType=INTEGER}, #{pickName,jdbcType=VARCHAR}, 
+      #{pickType,jdbcType=VARCHAR}, #{pickDate,jdbcType=TIMESTAMP}, #{pickPlace,jdbcType=VARCHAR}, 
+      #{pickPhone,jdbcType=VARCHAR}, #{reportDate,jdbcType=TIMESTAMP}, #{pickTrait,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lostfound.lost_found.pojo.PickInformation">
+    insert into pick_information
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        User_ID,
+      </if>
+      <if test="pickId != null">
+        Pick_ID,
+      </if>
+      <if test="pickName != null">
+        Pick_Name,
+      </if>
+      <if test="pickType != null">
+        Pick_Type,
+      </if>
+      <if test="pickDate != null">
+        Pick_Date,
+      </if>
+      <if test="pickPlace != null">
+        Pick_Place,
+      </if>
+      <if test="pickPhone != null">
+        Pick_Phone,
+      </if>
+      <if test="reportDate != null">
+        Report_Date,
+      </if>
+      <if test="pickTrait != null">
+        Pick_Trait,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="pickId != null">
+        #{pickId,jdbcType=INTEGER},
+      </if>
+      <if test="pickName != null">
+        #{pickName,jdbcType=VARCHAR},
+      </if>
+      <if test="pickType != null">
+        #{pickType,jdbcType=VARCHAR},
+      </if>
+      <if test="pickDate != null">
+        #{pickDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pickPlace != null">
+        #{pickPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="pickPhone != null">
+        #{pickPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="reportDate != null">
+        #{reportDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pickTrait != null">
+        #{pickTrait,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.lostfound.lost_found.pojo.PickInformationExample" resultType="java.lang.Long">
+    select count(*) from pick_information
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update pick_information
+    <set>
+      <if test="record.userId != null">
+        User_ID = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.pickId != null">
+        Pick_ID = #{record.pickId,jdbcType=INTEGER},
+      </if>
+      <if test="record.pickName != null">
+        Pick_Name = #{record.pickName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pickType != null">
+        Pick_Type = #{record.pickType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pickDate != null">
+        Pick_Date = #{record.pickDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.pickPlace != null">
+        Pick_Place = #{record.pickPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pickPhone != null">
+        Pick_Phone = #{record.pickPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reportDate != null">
+        Report_Date = #{record.reportDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.pickTrait != null">
+        Pick_Trait = #{record.pickTrait,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update pick_information
+    set User_ID = #{record.userId,jdbcType=INTEGER},
+      Pick_ID = #{record.pickId,jdbcType=INTEGER},
+      Pick_Name = #{record.pickName,jdbcType=VARCHAR},
+      Pick_Type = #{record.pickType,jdbcType=VARCHAR},
+      Pick_Date = #{record.pickDate,jdbcType=TIMESTAMP},
+      Pick_Place = #{record.pickPlace,jdbcType=VARCHAR},
+      Pick_Phone = #{record.pickPhone,jdbcType=VARCHAR},
+      Report_Date = #{record.reportDate,jdbcType=TIMESTAMP},
+      Pick_Trait = #{record.pickTrait,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lostfound.lost_found.pojo.PickInformation">
+    update pick_information
+    <set>
+      <if test="pickName != null">
+        Pick_Name = #{pickName,jdbcType=VARCHAR},
+      </if>
+      <if test="pickType != null">
+        Pick_Type = #{pickType,jdbcType=VARCHAR},
+      </if>
+      <if test="pickDate != null">
+        Pick_Date = #{pickDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pickPlace != null">
+        Pick_Place = #{pickPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="pickPhone != null">
+        Pick_Phone = #{pickPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="reportDate != null">
+        Report_Date = #{reportDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pickTrait != null">
+        Pick_Trait = #{pickTrait,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where  Pick_ID = #{pickId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lostfound.lost_found.pojo.PickInformation">
+    update pick_information
+    set Pick_Name = #{pickName,jdbcType=VARCHAR},
+      Pick_Type = #{pickType,jdbcType=VARCHAR},
+      Pick_Date = #{pickDate,jdbcType=TIMESTAMP},
+      Pick_Place = #{pickPlace,jdbcType=VARCHAR},
+      Pick_Phone = #{pickPhone,jdbcType=VARCHAR},
+      Report_Date = #{reportDate,jdbcType=TIMESTAMP},
+      Pick_Trait = #{pickTrait,jdbcType=VARCHAR}
+    where Pick_ID = #{pickId,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectPickInformationByKeyword" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from pick_information
+    <where>Pick_Name like CONCAT('%',#{keyword},'%')</where>
+  </select>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from pick_information
+  </select>
+</mapper>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>lost</title>
+    <script src="https://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	</head>
+	<style type="text/css">
+		body{background: url(img/7.jpg);}
+		
+		ul {list-style-type: none;}
+		
+		li 
+		{
+			border-style: solid;
+			border-width: 1px;
+			padding: 5px;
+			margin: 5px;
+			background-color: #99ff99;
+			float: left;
+		}
+		
+		#info 
+		{
+			width: 1000px;
+			margin: 80px auto 10px auto;
+		}
+		
+		th,td{background-color: white;}
+		
+		#formDiv
+		{
+			width: 250px;
+			border-style: solid;
+			border-width: 1px;
+			margin: 50px auto 10px auto;
+			padding: 10px;
+		}
+		
+		#formDiv input {width: 100%;}
+		
+		.word {width: 40px;}
+		
+		.inp {width: 200px;}
+		
+	</style>
+	<body>
+		<table class="table table-bordered" id="info">
+			<tr class="active">
+				<th>标题</th>
+				<th>日期</th>
+				<th>地点</th>
+				<th>联系人</th>
+				<th>&nbsp;</th>
+			</tr>
+			<tr class="success">
+				<td>寻物启事</td>
+				<td>2018/6/9</td>
+				<td>北京</td>
+				<td>小叶</td>
+				<td>
+					<a href="delete?id=001">Delete</a>
+				</td>
+			</tr>
+			<tr>
+				<td>寻物启事</td>
+				<td>2018/6/9</td>
+				<td>北京</td>
+				<td>小叶</td>
+				<td>
+					<a href="delete?id=002">Delete</a>
+				</td>
+			</tr>
+			<tr>
+				<td>寻物启事</td>
+				<td>2018/6/9</td>
+				<td>北京</td>
+				<td>小叶</td>
+				<td>
+					<a href="delete?id=003">Delete</a>
+				</td>
+			</tr>
+		
+		</table>
+		
+		<div id="formDiv">
+		
+			<h4>添加寻物启事</h4>
+		
+			<table class="table table-bordered">
+				<tr>
+					<td class="word">标题:</td>
+					<td class="inp">
+						<input type="text" name="标题" id="标题" />
+					</td>
+				</tr>
+				<tr>
+					<td class="word">日期:</td>
+					<td class="inp">
+						<input type="text" name="日期" id="日期" />
+					</td>
+				</tr>
+				<tr>
+					<td class="word">地点:</td>
+					<td class="inp">
+						<input type="text" name="地点" id="地点" />
+					</td>
+				</tr>
+				<tr>
+					<td class="word">联系人:</td>
+					<td class="inp">
+						<input type="text" name="联系人" id="联系人" />
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center">
+						<button id="addButton" value="abc">
+		          Submit
+		        </button>
+					</td>
+				</tr>
+			</table>
+		</div>
+		
+		<script type="text/javascript" src="webjars/jquery/2.2.4/dist/jquery.min.js"></script>
+		<script type="text/javascript">
+			var count = 1;
+			$('#addButton').click(function() {
+				var $标题 = $('#标题')
+				var $日期 = $('#日期')
+				var $地点 = $('#地点')
+				var $联系人 = $('#联系人')
+				var 标题 = $标题.val()
+				var 日期 = $日期.val()
+				var 地点 = $地点.val()
+				var 联系人 = $联系人.val()
+				var n = count%4;
+				var tr_class = ['danger','active','success','warning'];
+				var text = '<tr class="' + tr_class[n] + '"></tr>';
+				var $xxx = $(text);
+				count++;
+				$xxx
+				.append('<td>' + 标题 + '</td>') 
+				.append('<td>' + 日期 + '</td>')
+				.append('<td>' + 地点 + '</td>')
+				.append('<td>' + 联系人 + '</td>')
+				.append('<td><a href="delete?id="' + Date.now() + '>Delete</a></td>')
+				.appendTo('#info>tbody')
+				$标题.val('')
+				$日期.val('')
+				$地点.val('')
+				$联系人.val('')
+			})
+		
+			$('#info').delegate('a', 'click', clickDelete)
+
+			function clickDelete() {
+				var $tr = $(this).parent().parent()
+				var name = $tr.children(':first').html()
+				if(confirm('确定删除' + name + '吗?')) {
+					$tr.remove()
+				}
+		
+				return false
+			}
+		</script>
+	</body>
+</html>

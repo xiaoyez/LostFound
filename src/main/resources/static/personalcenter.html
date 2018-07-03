@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>PersonalCenter</title>
+
+    <script src="https://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script><!DOCTYPE html>
+    <link rel="stylesheet" type="text/css" href="/css/main.css"/>
+
+	</head>
+	<body>
+		<div class="container">
+			<div class="col-lg-6 col-lg-offset-3">
+				<div class="row w">
+					<div class="col-md-4">
+						<img class="img-responsive" src="/img/9.bmp" alt="">
+						<ul class="nav nav-tabs nav-stacked" id="myTab">
+							<li class="active">
+								<a href="#个人信息">个人信息</a>
+							</li>
+							<li>
+								<a href="#我的失物">我的失物</a>
+							</li>
+							<li>
+								<a href="#我的拾物">我的拾物</a>
+							</li>
+							<li>
+								<a href="#私信">私信</a>
+							</li>
+						</ul>
+					</div>
+					<div class="col-md-8">
+						<div class="tab-content">
+							<div class="tab-pane active" id="个人信息">
+								<h3>小叶</h3>
+								<hr>
+								<div class="row">
+									<div class="col-xs-6">
+										<p class="sm">
+											电话<br>
+											邮箱
+										</p>
+									</div>
+
+									<div class="col-xs-6">
+										<p class="sm">
+											<span th:text="${user.getPhone()}"></span>
+											<br>
+											<span th:text="${user.getEMail()}"></span>
+										</p>
+									</div>
+							</div>
+
+							<div class="tab-pane" id="联系方式">
+
+								</div>
+							</div>
+							<div class="tab-pane" id="我的失物">
+								<table class="table table-bordered" id="lost_info">
+									<tr class="active">
+										<th hidden="hidden">lostId</th>
+										<th>失物名称</th>
+										<th>日期</th>
+										<th>&nbsp;</th>
+										<th>&nbsp;</th>
+									</tr>
+
+								</table>
+							</div>
+							<div class="tab-pane" id="我的拾物">
+								<table class="table table-bordered" id="pick_info">
+									<tr class="active">
+										<th hidden="hidden">pickId</th>
+										<th>拾物名称</th>
+										<th>日期</th>
+										<th>&nbsp;</th>
+										<th>&nbsp;</th>
+									</tr>
+
+								</table>
+							</div>
+							<div class="tab-pane" id="私信">
+								<ul class="nav nav-tabs nav-stacked" id="message">
+
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
+		<script src="/webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script>
+			$('#myTab a').click(function(e) {
+				e.preventDefault()
+				$(this).tab('show')
+			})
+
+            var tr_class = ['danger','active','success','warning'];
+			var lost_count = 0;
+			var pick_count = 0;
+			var user_count = 0;
+            function addLost(lost)
+            {
+                var lostId = lost.lostId;
+                var 失物名称 = lost.lostName
+                var 日期 = lost.lostDate
+                var n = lost_count%4;
+
+                var text = '<tr class="' + tr_class[n] + '"></tr>';
+                var $xxx = $(text);
+                lost_count++;
+                $xxx
+                    .append('<td hidden="hidden">' + lostId + '</td>')
+                    .append('<td>' + 失物名称 + '</td>')
+                    .append('<td>' + 日期 + '</td>')
+                    .append('<td>' + '<a href="/lost/' + lostId + '"  >查看</a>')
+                    .append('<td><a href="#" target="_blank" onclick="clickDelete(this)">删除</a></td>')
+                    .appendTo('#lost_info>tbody')
+
+            }
+
+            function addPick(pick)
+            {
+                var pickId = pick.pickId;
+                var 拾物名称 = pick.pickName
+                var 日期 = pick.pickDate
+                var n = pick_count%4;
+
+                var text = '<tr class="' + tr_class[n] + '"></tr>';
+                var $xxx = $(text);
+                pick_count++;
+                $xxx
+                    .append('<td hidden="hidden">' + pickId + '</td>')
+                    .append('<td>' + 拾物名称 + '</td>')
+                    .append('<td>' + 日期 + '</td>')
+                    .append('<td>' + '<a href="/pick/' + pickId + '" target="_blank">查看</a>')
+                    .append('<td><a href="#" onclick="clickDelete(this)">删除</a></td>')
+                    .appendTo('#pick_info>tbody')
+
+            }
+
+            function addUser(user) {
+                var yourId = user.userId;
+                var yourName = user.userName;
+                var n = user_count%4;
+                var text = '<li class="' + tr_class[n] + '"></li>';
+                var $xxx = $(text);
+                $xxx.append('<a href="/message/' + yourId + '" target="_blank">'+yourName+'</a>')
+					.appendTo('#message');
+            }
+            function clickDeleteLost(a) {
+                var name = $(a).parent().parent().children().first().next().html();
+                var lostId = $(a).parent().parent().children().first().html();
+                if(confirm('确定删除' + name + '吗?')) {
+                    $.ajax(
+                        {
+                            url:"lost/" + lostId,
+                            type:'delete',
+                            data:{},
+                            success:function (data) {
+                                document.write(data);
+                            }
+                        }
+                    )
+                }
+
+                return false
+            }
+
+            function clickDeletePick(a) {
+                var name = $(a).parent().parent().children().first().next().html();
+                var pickId = $(a).parent().parent().children().first().html();
+                if(confirm('确定删除' + name + '吗?')) {
+                    $.ajax(
+                        {
+                            url:"pick/" + pickId,
+                            type:'delete',
+                            data:{},
+                            success:function (data) {
+                                document.write(data);
+                            }
+                        }
+                    )
+                }
+
+                return false
+            }
+
+            function init_lost() {
+                $.get("/lost/mine",null,function (data) {
+                    var count = 1;
+                    for (var i = 0; i < data.length; i++)
+                    {
+                        var lost = data[i].lostInformation;
+                        addLost(lost);
+                    }
+                } );
+            }
+
+            function init_pick() {
+                $.get("/pick/mine",null,function (data) {
+                    var count = 1;
+                    for (var i = 0; i < data.length; i++)
+                    {
+                        var pick = data[i].pickInformation;
+                        addPick(pick);
+                    }
+                } );
+            }
+
+            function init_message() {
+                $.get("/msg/users",null,function (data) {
+					var $chattedUserList = $("#message");
+					for (var i = 0; i < data.length; i++)
+					{
+					    var user = data[i];
+                        addUser(user);
+					}
+
+				});
+            }
+
+            function init() {
+
+				init_lost();
+				init_pick();
+				init_message();
+
+            }
+            init();
+		</script>
+	
+	</body>
+</html>

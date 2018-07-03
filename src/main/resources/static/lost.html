@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>lost</title>
+    <script src="https://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	</head>
+	<style type="text/css">
+		body{
+				background: url(img/7.jpg);
+				background-size: cover;
+			}
+		ul {list-style-type: none;}
+		
+		li 
+		{
+			border-style: solid;
+			border-width: 1px;
+			padding: 5px;
+			margin: 5px;
+			background-color: #99ff99;
+			float: left;
+		}
+		
+		#info 
+		{
+			width: 1000px;
+			margin: 80px auto 10px auto;
+		}
+		
+		th,td{background-color: white;}
+		
+		#formDiv
+		{
+			width: 250px;
+			border-style: solid;
+			border-width: 1px;
+			margin: 50px auto 10px auto;
+			padding: 10px;
+		}
+		
+		#formDiv input {width: 100%;}
+		
+		.word {width: 40px;}
+		
+		.inp {width: 200px;}
+		
+	</style>
+	<body>
+		<center>
+			<div class="btn-group" role="group" aria-label="寻物启事">
+				<a href="/home" target="_blank" class="btn btn-info">主页</a>
+				<a href="/user/center" target="_blank" class="btn btn-info">个人中心</a>
+				<a href="/UploadInfo" target="_blank" class="btn btn-info">提交失物信息</a>
+			</div>
+		</center>
+		<table class="table table-bordered" id="info">
+			<tr class="active">
+				<th hidden="hidden">lostId</th>
+				<th>失物名称</th>
+				<th>日期</th>
+				<th>&nbsp;</th>
+				<th>&nbsp;</th>
+			</tr>
+			
+		
+		</table>
+		
+
+		<script type="text/javascript">
+
+
+
+		</script>
+		<script type="text/javascript">
+			var count = 1;
+            var $失物名称 = $('#失物名称')
+			var $失物类型 = $('#失物类型')
+            var $日期 = $('#日期')
+            var $地点 = $('#地点')
+            var $联系人 = $('#联系人')
+
+            var tr_class = ['danger','active','success','warning'];
+
+
+
+			function addLost(lost)
+			{
+				var lostId = lost.lostId;
+                var 失物名称 = lost.lostName
+                var 日期 = lost.lostDate
+                var n = count%4;
+
+                var text = '<tr class="' + tr_class[n] + '"></tr>';
+                var $xxx = $(text);
+                count++;
+                $xxx
+					.append('<td hidden="hidden">' + lostId + '</td>')
+                    .append('<td>' + 失物名称 + '</td>')
+					.append('<td>' + 日期 + '</td>')
+					.append('<td>' + '<a href="/lost/' + lostId + '" target="_blank">查看</a>')
+                    .append('<td><a href="#" onclick="clickDelete(this)">删除</a></td>')
+                    .appendTo('#info>tbody')
+
+			}
+
+			function clearFormDiv()
+			{
+                $失物类型.val('')
+				$失物名称.val('')
+                $日期.val('')
+                $地点.val('')
+                $联系人.val('')
+			}
+
+			$('#addButton').click(function() {
+				addLost();
+				clearFormDiv();
+			})
+
+			function clickDelete(a) {
+                var name = $(a).parent().parent().children().first().next().html();
+                var lostId = $(a).parent().parent().children().first().html();
+				if(confirm('确定删除' + name + '吗?')) {
+				   $.ajax(
+					   {
+						   url:"lost/" + lostId,
+						   type:'delete',
+						   data:{},
+						   success:function (data) {
+								document.write(data);
+                           }
+					   }
+				   )
+				}
+		
+				return false
+			}
+
+            function init() {
+                $.get("lost/all",null,function (data) {
+                    var count = 1;
+                    for (var i = 0; i < data.length; i++)
+                    {
+                        var lost = data[i].lostInformation;
+						addLost(lost);
+                    }
+                } );
+            }
+			init();
+
+		</script>
+	</body>
+</html>

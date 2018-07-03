@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>home</title>
+
+    <script src="https://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	</head>
+	<style type="text/css">
+		body {
+			background: url(/img/10.jpg);
+			background-size: cover;
+		}
+		
+		#info {
+			width: 1000px;
+			margin: 80px auto 10px auto;
+		}
+		
+		td {
+			background-color: white;
+		}
+		
+	</style>
+	<body>
+	<div th:if="${search_lost != null}">
+		<table class="table table-bordered" id="info">
+			<tbody>
+			<tr hidden="hidden">
+				<td th:text="${search_lost.getLostUser().getUserId()}"></td>
+				<td th:text="${search_lost.getLostInformation().getLostId()}"></td>
+			</tr>
+				<tr class="active">
+					<td>类型</td>
+					<td th:text="${search_lost.getLostInformation().getLostType()}"></td>
+				</tr>
+				<tr class="succes">
+					<td>标题</td>
+					<td th:text="${search_lost.getLostInformation().getLostName()}"></td>
+				</tr>
+				<tr class="warning">
+					<td>日期</td>
+					<td th:text="${search_lost.getLostInformation().getLostDate()}"></td>
+				</tr>
+				<tr class="danger">
+					<td>地点</td>
+					<td th:text="${search_lost.getLostInformation().getLostPlace()}"></td>
+				</tr>
+				<tr class="active">
+					<td>联系人</td>
+					<td th:text="${search_lost.getLostUser().getUserName()}"></td>
+				</tr>
+				<tr class="succes">
+					<td>联系方式</td>
+					<td th:text="'手机：'+${search_lost.getLostInformation().getLostPhone()}"></td>
+				</tr>
+				<tr class="warning">
+					<td>详情</td>
+					<td th:text="${search_lost.getLostInformation().getLostTrait()}"></td>
+				</tr>
+				<tr class="success">
+					<td>
+						<a href=""  class="btn btn-default" onclick="toPrivateMessage(this)">发送私信</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div th:if="${search_lostList != null}" class="table table-bordered">
+		<table th:each="search_lost : ${search_lostList}">
+			<tbody>
+			<tr hidden="hidden">
+				<td th:text="${search_lost.getLostUser().getUserId()}"></td>
+				<td th:text="${search_lost.getLostInformation().getLostId()}"></td>
+			</tr>
+			<tr class="active">
+				<td>类型</td>
+				<td th:text="${search_lost.getLostInformation().getLostType()}"></td>
+			</tr>
+			<tr class="succes">
+				<td>标题</td>
+				<td th:text="${search_lost.getLostInformation().getLostName()}"></td>
+			</tr>
+			<tr class="warning">
+				<td>日期</td>
+				<td th:text="${search_lost.getLostInformation().getLostDate()}"></td>
+			</tr>
+			<tr class="danger">
+				<td>地点</td>
+				<td th:text="${search_lost.getLostInformation().getLostPlace()}"></td>
+			</tr>
+			<tr class="active">
+				<td>联系人</td>
+				<td th:text="${search_lost.getLostUser().getUserName()}"></td>
+			</tr>
+			<tr class="succes">
+				<td>联系方式</td>
+				<td th:text="'手机：'+${search_lost.getLostInformation().getLostPhone()}"></td>
+			</tr>
+			<tr class="warning">
+				<td>详情</td>
+				<td th:text="${search_lost.getLostInformation().getLostTrait()}"></td>
+			</tr>
+			<tr class="success">
+				<td>
+					<a href=""  class="btn btn-default" onclick="toPrivateMessage(this)">发送私信</a>
+				</td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<script>
+		function toPrivateMessage(a) {
+			var $a = $(a);
+			var userId = $a.parent().parent().parent().children().first().children().first().html();
+			$a.attr("href","/message/" + userId);
+        }
+	</script>
+	</body>
+</html>

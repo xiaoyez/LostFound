@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>pick</title>
+	<script src="https://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+	<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<style type="text/css">
+	body{
+		background: url(img/7.jpg);
+		background-size: cover;
+	}
+	ul {list-style-type: none;}
+
+	li
+	{
+		border-style: solid;
+		border-width: 1px;
+		padding: 5px;
+		margin: 5px;
+		background-color: #99ff99;
+		float: left;
+	}
+
+	#info
+	{
+		width: 1000px;
+		margin: 80px auto 10px auto;
+	}
+
+	th,td{background-color: white;}
+
+	#formDiv
+	{
+		width: 250px;
+		border-style: solid;
+		border-width: 1px;
+		margin: 50px auto 10px auto;
+		padding: 10px;
+	}
+
+	#formDiv input {width: 100%;}
+
+	.word {width: 40px;}
+
+	.inp {width: 200px;}
+
+</style>
+<body>
+<center>
+	<div class="btn-group" role="group" aria-label="寻物启事">
+		<a href="/home" target="_blank" class="btn btn-info">主页</a>
+		<a href="/user/center" target="_blank" class="btn btn-info">个人中心</a>
+		<a href="/UploadInfo" target="_blank" class="btn btn-info">提交拾物信息</a>
+	</div>
+</center>
+<table class="table table-bordered" id="info">
+	<tr class="active">
+		<th hidden="hidden">pickId</th>
+		<th>拾物名称</th>
+		<th>日期</th>
+		<th>&nbsp;</th>
+		<th>&nbsp;</th>
+	</tr>
+
+
+</table>
+
+<form id="formDiv" action="pick" method="post">
+
+	<h4>添加寻物启事</h4>
+
+	<table class="table table-bordered">
+		<tr>
+			<td class="word">拾物名称:</td>
+			<td class="inp">
+				<input type="text" name="pickName" id="拾物名称" />
+			</td>
+		</tr>
+		<tr>
+			<td class="word">拾物类型:</td>
+			<td class="inp">
+				<input type="text" name="pickType" id="拾物类型" />
+			</td>
+		</tr>
+		<tr>
+			<td class="word">日期:</td>
+			<td class="inp">
+				<input type="date" name="pickDate" id="日期" />
+			</td>
+		</tr>
+		<tr>
+			<td class="word">地点:</td>
+			<td class="inp">
+				<input type="text" name="pickPlace" id="地点" />
+			</td>
+		</tr>
+		<tr>
+			<td class="word">联系人电话:</td>
+			<td class="inp">
+				<input type="tel" name="pickPhone" id="联系人" />
+			</td>
+		</tr>
+		<tr>
+			<td class="word">拾物详细信息:</td>
+			<td class="inp">
+				<input type="text" name="pickTrait" id="拾物详细信息" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" align="center">
+				<button id="addButton" type="submit" onclick="">
+					提交
+				</button>
+			</td>
+		</tr>
+	</table>
+</form>
+<script type="text/javascript">
+
+
+
+</script>
+<script type="text/javascript">
+    var count = 1;
+    var $拾物名称 = $('#拾物名称')
+    var $拾物类型 = $('#拾物类型')
+    var $日期 = $('#日期')
+    var $地点 = $('#地点')
+    var $联系人 = $('#联系人')
+
+    var tr_class = ['danger','active','success','warning'];
+
+
+
+    function addPick(pick)
+    {
+        var pickId = pick.pickId;
+        var 拾物名称 = pick.pickName
+        var 日期 = pick.pickDate
+        var n = count%4;
+
+        var text = '<tr class="' + tr_class[n] + '"></tr>';
+        var $xxx = $(text);
+        count++;
+        $xxx
+            .append('<td hidden="hidden">' + pickId + '</td>')
+            .append('<td>' + 拾物名称 + '</td>')
+            .append('<td>' + 日期 + '</td>')
+            .append('<td>' + '<a href="/pick/' + pickId + '" target="_blank">查看</a>')
+            .append('<td><a href="#" onclick="clickDelete(this)">删除</a></td>')
+            .appendTo('#info>tbody')
+
+    }
+
+    function clearFormDiv()
+    {
+        $拾物类型.val('')
+        $拾物名称.val('')
+        $日期.val('')
+        $地点.val('')
+        $联系人.val('')
+    }
+
+    $('#addButton').click(function() {
+        addpick();
+        clearFormDiv();
+    })
+
+    function clickDelete(a) {
+        var name = $(a).parent().parent().children().first().next().html();
+        var pickId = $(a).parent().parent().children().first().html();
+        if(confirm('确定删除' + name + '吗?')) {
+            $.ajax(
+                {
+                    url:"/pick/" + pickId,
+                    type:'delete',
+                    data:{},
+                    success:function (data) {
+                        document.write(data);
+                    }
+                }
+            )
+        }
+
+        return false
+    }
+
+    function init() {
+        $.get("/pick/all",null,function (data) {
+            var count = 1;
+            for (var i = 0; i < data.length; i++)
+            {
+                var pick = data[i].pickInformation;
+                addPick(pick);
+            }
+        } );
+    }
+    init();
+
+</script>
+</body>
+</html>

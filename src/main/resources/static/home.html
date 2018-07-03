@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head >
+    <meta charset="UTF-8">
+    <title>home</title>
+
+    <script src="https://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="css/service.css" rel="stylesheet">
+    <link href="css/style11.css" rel="stylesheet">
+    <link href="css/css2.css" rel="stylesheet">
+    <style type="text/css">
+    	#carousel-example-generic
+    	{	
+    		height: 240px;
+    		width: 1000px;
+    		margin: 50px auto 0;
+    		overflow: hidden;
+    	}
+    	.item{font-style: inherit;}
+    	.navbar{margin-bottom:inherit;}
+    </style>
+	</head>
+	<body>
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+		        <span class="sr-only">Toggle navigation</span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		      </button>
+					<a class="navbar-brand" href="#">首页</a>
+				</div>
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav">
+						<li class="active">
+							<a href="/lost">寻物启事 <span class="sr-only">(current)</span></a>
+						</li>
+						<li>
+							<a href="/pick">招领启事</a>
+						</li>
+						<li>
+							<a href="user/center" aria-haspopup="true" aria-expanded="false">个人中心</a>
+
+						</li>
+					</ul>
+					<div class="navbar-form" style="float: left">
+						<div class="form-group">
+							<input id="searchLostInput" type="text" class="form-control" placeholder="物品搜索">
+
+
+						<a href="" id="searchLostA" class="btn btn-default" onclick="searchLost()">搜索</a>
+						</div>
+					</div>
+					<script type="text/javascript">
+						function searchLost() {
+                            var searchLostA = $("#searchLostA");
+                            var searchLost = $("#searchLostInput").val();
+                            var href = "lost/" + searchLost;
+                            searchLostA.attr("href",href);
+                        }
+					</script>
+					<ul class="nav navbar-nav navbar-right">
+						<li>
+							<a href="#">新闻资讯</a>
+						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">关于我们<span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li>
+									<a href="#">合作伙伴</a>
+								</li>
+								<li>
+									<a href="#">赞助厂商</a>
+								</li>
+								<li>
+									<a href="#">加入我们</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+		<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+			<div class="carousel-inner" role="listbox">
+				<div class="item active">
+					<img src="img/4.png" alt="...">
+					<div class="carousel-caption">
+					</div>
+				</div>
+				<div class="item">
+					<img src="img/5.jpg" alt="...">
+					<div class="carousel-caption">
+					</div>
+				</div>
+			</div>
+			<a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+				<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+				<span class="sr-only">Previous</span>
+			</a>
+			<a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+				<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+				<span class="sr-only">Next</span>
+			</a>
+		</div>
+		<div style="margin:auto; width:100%;">
+			<div style=" margin:0 auto;width:1002px;border:#ddd 1px solid; background-color:#fff; padding:0px;">
+		
+				<div id="ilist99">
+					<h6><span><a href="/lost">进去看看</a></span><a href="/forum-38-1.html">失物招领</a></h6>
+					<ul id="newist_lost">
+
+					</ul>
+				</div>
+				<div id="ilist99" style="border-left:#e5e5e5 1px solid">
+					<h6><span><a href="/pick">进去看看</a></span><a href="/forum-1-1.html">寻物启事</a></h6>
+		
+					<ul id="newist_pick">
+
+
+					</ul>
+				</div>
+			<script>
+				function addLost(lost) {
+					var text = "<li><span style=\"float:right; font-size:20px;font-family:Arial; padding-left:10px;\">"+lost.reportDate +"</span>\n" +
+                        "\t\t\t\t\t\t\t<font color=\"#ff6600\"></font>&nbsp;\n" +
+                        "\t\t\t\t\t\t\t<a href=\"/lost/"+ lost.lostId +"\" target=\"_blank\">\n" +
+                        "\t\t\t\t\t\t\t\t<font style=\"color:\">"+lost.lostName+"</font>\n" +
+                        "\t\t\t\t\t\t\t</a>\n" +
+                        "\t\t\t\t\t\t</li>";
+					var li = $(text);
+					$("#newist_lost").append(li);
+                }
+
+				function addPick(pick) {
+					var text = "<li><span style=\"float:right; font-size:20px;font-family:Arial; padding-left:10px;\">"+pick.reportDate+" </span>\n" +
+                        "\t\t\t\t\t\t\t<font color=\"#ff6600\"></font>&nbsp;\n" +
+                        "\t\t\t\t\t\t\t<a href=\"/lost/"+pick.pickId+"\" target=\"_blank\">\n" +
+                        "\t\t\t\t\t\t\t\t<font style=\"color:\">"+pick.pickName+"</font>\n" +
+                        "\t\t\t\t\t\t\t</a>\n" +
+                        "\t\t\t\t\t\t</li>";
+
+					var li = $(text);
+					$("#newist_pick").append(li);
+                }
+				function initNewistLost() {
+					$.get("/lost/newist",null,function (data) {
+						for (var i = 0; i < data.length; i++)
+						{
+						    var lost = data[i].lostInformation;
+						    addLost(lost);
+						}
+                    });
+                }
+
+                function initNewistPick() {
+                    $.get("/pick/newist",null,function (data) {
+                        for (var i = 0; i < data.length; i++)
+                        {
+                            var pick = data[i].pickInformation;
+                            addPick(pick);
+                        }
+                    });
+                }
+
+                initNewistLost();
+				initNewistPick();
+			</script>
+
+		
+
+
+			<div id="clear"></div>
+			<div id="clear"></div>
+		
+			<div class="friendLink mar10">
+				<div class="bd">
+					<div class="text">
+						友情连接：
+						<a href="http://www.szlikun.cn/" target="_blank">丽坤网络科技有限公司</a>
+						<a href="http://www.szlikun.cn/" target="_blank">龙岗建站公司</a>
+						<a href="http://www.rbjjz.com" target="_blank">九江信息网</a>
+						<a href="http://www.diunal.com/" target="_blank">丢哪了</a>
+					</div>
+				</div>
+			</div>
+			<div id="webcopy">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0" style="font-size:12px;">
+					<tbody>
+						<tr>
+							<td height="25" align="center"><span class="pipe">|</span>
+								<a href="http://www.shiwurenling.com/data/mianzeshengming.html">免责声明</a> <span class="pipe">|</span>
+								<a href="http://www.shiwurenling.com/about/">关于我们</a> <span class="pipe">|</span> 网站合作 <span class="pipe">|</span> 联系我们 <span class="pipe">|</span></td>
+						</tr>
+						<tr>
+							<td height="25" align="center"> 2011-2016<strong> <a href="http://www.shiwurenling.com/" target="_blank">失物认领网</a></strong> (
+								<a href="http://www.miitbeian.gov.cn">粤ICP备15026106号</a> ).&nbsp;&nbsp;&nbsp;
+		
+							</td>
+						</tr>
+						<tr>
+							<td height="25" align="center">Copyright 2016 Likun Network Technology Limited, All Rights Reserved
+								<a href="http://www.szlikun.cn">深圳市丽坤网络科技有限公司</a> 版权所有</td>
+						</tr>
+						<tr>
+							<td height="25" align="center">地址：广东省深圳市龙岗区. 违法和不良信息举报电话：<em>0755-84559599</em> 举报邮箱：
+								<a href="mailto:shiwurenling@163.com" rel="nofollow"><em>shiwurenling@163.com</em></a>
+							</td>
+						</tr>
+						<tr>
+							<td height="25" align="center">提醒：禁止发布任何违反国家法律、法规的言论与图片等内容；本站内容均来自个人观点与网络等信息，非本站认同之观点.</td>	
+						</tr>
+					</tbody>
+				</table>
+				<div id="clear"></div><br>	
+			</div>
+			<div class="fixed_box skin_blue" id="fixedBox" style="height: 433px; right: 0px; top: 437px;">
+				<div class="content_box">
+					<div class="content_inner">
+						<div class="close_btn">
+							<a title="关闭"><span>关闭</span></a>
+						</div>
+						<div class="content_title"><span>客服中心</span></div>
+						<div class="content_list">
+							<div class="qqserver">
+								<p>
+									<a target="_blank" href="http://wpa.qq.com/msgrd?v=3&amp;uin=2829767071&amp;site=qq&amp;menu=yes">	
+										<img border="0" src="http://wpa.qq.com/pa?p=2:2829767071:41" alt="点击这里给我发消息" title="点击这里给我发消息">
+										<span>正能量1</span>
+									</a>
+								</p>
+								<p>
+									<a target="_blank" href="http://wpa.qq.com/msgrd?v=3&amp;uin=2829767071&amp;site=qq&amp;menu=yes">
+										<img border="0" src="http://wpa.qq.com/pa?p=2:2829767071:41" alt="点击这里给我发消息" title="点击这里给我发消息">
+										<span>正能量2</span>
+									</a>
+								</p>
+								<p>
+									<a target="_blank" href="http://wpa.qq.com/msgrd?v=3&amp;uin=2829767071&amp;site=qq&amp;menu=yes">
+										<img border="0" src="http://wpa.qq.com/pa?p=2:2829767071:41" alt="点击这里给我发消息" title="点击这里给我发消息">
+										<span>正能量3</span>
+									</a>
+								</p>
+							</div>
+							<hr>
+							<div class="phoneserver">
+								<h5>微信客服</h5>
+								<p><img src="http://ww2.sinaimg.cn/mw690/70ae3966gw1f9zubbx6hrj20by0bymxj.jpg" width="100%"></p>	
+							</div>
+							<hr>
+							<div class="phoneserver">
+								<h5>客服电话</h5>
+								<p>0755-84559599</p>
+							</div>
+							<hr>
+						</div>
+						<div class="content_bottom"></div>
+					</div>
+				</div>
+				<div class="show_btn"><span>展开客服</span></div>
+			</div>
+			<script src="https://s4.cnzz.com/z_stat.php?id=1255930005&amp;web_id=1255930005" language="JavaScript"></script>
+			<script src="https://c.cnzz.com/core.php?web_id=1255930005&amp;t=z" charset="utf-8" type="text/javascript"></script>
+			<a href="http://www.cnzz.com/stat/website.php?web_id=1255930005" target="_blank" title="站长统计">站长统计</a>
+		</div>
+	</body>
+</html>

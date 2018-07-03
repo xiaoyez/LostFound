@@ -1,0 +1,21 @@
+
+.box{ margin:0 auto;}
+.bcon{ width:150px; border:1px solid #eee;background: white; }
+.bcon h1{ border-bottom:1px solid #eee; padding:0 10px; margin:0px !important;background: #ff3334;    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;}
+.bcon h1 b{ font:bold 14px/40px 'å®‹ä½“';  padding:0 8px; margin-top:-1px; display:inline-block; color:#FFF;}
+
+.list_lh{
+	height: 400px;
+	overflow: hidden;
+}
+.list_lh li{ padding:10px;}
+.list_lh li.lieven{ background:#F0F2F3;}
+.list_lh li p{ height:24px; line-height:24px;}
+.list_lh li p a{ float:left;}
+.list_lh li p em{ width:80px; font:normal 12px/24px Arial; color:#FF3300; float:right; display:inline-block;}
+.list_lh li p span{ color:#999; float:right;}
+.list_lh li p a.btn_lh{ background:#28BD19; height:17px; line-height:17px; color:#fff; padding:0 5px; margin-top:4px; display:inline-block; float:right;}
+.btn_lh:hover{ color:#fff; text-decoration:none;}
+
+.btm p{ font:normal 12px/24px 'Microsoft YaHei'; text-align:center;}

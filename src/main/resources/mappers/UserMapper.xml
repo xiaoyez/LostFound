@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lostfound.lost_found.dao.UserMapper">
+    <resultMap id="BaseResultMap" type="com.lostfound.lost_found.pojo.User">
+        <id column="User_ID" jdbcType="INTEGER" property="userId"/>
+        <result column="Password" jdbcType="VARCHAR" property="password"/>
+        <result column="User_Name" jdbcType="VARCHAR" property="userName"/>
+        <result column="Phone" jdbcType="INTEGER" property="phone"/>
+        <result column="E_mail" jdbcType="VARCHAR" property="eMail"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    User_ID, Password, User_Name, Phone, E_mail
+  </sql>
+
+
+    <select id="checkUserId" parameterType="Integer" resultType="int">
+    select count(1) from user
+    where User_Id = #{userId}
+
+
+
+
+  </select>
+    <select id="checkEmail" parameterType="String" resultType="int">
+    select count(1) from user
+    where E_mail = #{email}
+
+
+
+
+  </select>
+
+
+    <select id="selectLogin" resultMap="BaseResultMap" parameterType="map">
+
+        select
+        <include refid="Base_Column_List"/>
+        from user where User_Id = #{userId} and Password = #{password}
+
+    </select>
+
+
+
+
+    <select id="selectByExample" parameterType="com.lostfound.lost_found.pojo.UserExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from user
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        where User_ID = #{userId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user
+    where User_ID = #{userId,jdbcType=INTEGER}
+  </delete>
+    <delete id="deleteByExample" parameterType="com.lostfound.lost_found.pojo.UserExample">
+        delete from user
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.lostfound.lost_found.pojo.User">
+    insert into user (User_ID, Password, User_Name, 
+      Phone, E_mail)
+    values (#{userId,jdbcType=INTEGER}, #{password,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=INTEGER}, #{eMail,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.lostfound.lost_found.pojo.User">
+        insert into user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                User_ID,
+            </if>
+            <if test="password != null">
+                Password,
+            </if>
+            <if test="userName != null">
+                User_Name,
+            </if>
+            <if test="phone != null">
+                Phone,
+            </if>
+            <if test="eMail != null">
+                E_mail,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=INTEGER},
+            </if>
+            <if test="eMail != null">
+                #{eMail,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.lostfound.lost_found.pojo.UserExample" resultType="java.lang.Long">
+        select count(*) from user
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update user
+        <set>
+            <if test="record.userId != null">
+                User_ID = #{record.userId,jdbcType=INTEGER},
+            </if>
+            <if test="record.password != null">
+                Password = #{record.password,jdbcType=VARCHAR},
+            </if>
+            <if test="record.userName != null">
+                User_Name = #{record.userName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.phone != null">
+                Phone = #{record.phone,jdbcType=INTEGER},
+            </if>
+            <if test="record.eMail != null">
+                E_mail = #{record.eMail,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update user
+        set User_ID = #{record.userId,jdbcType=INTEGER},
+        Password = #{record.password,jdbcType=VARCHAR},
+        User_Name = #{record.userName,jdbcType=VARCHAR},
+        Phone = #{record.phone,jdbcType=INTEGER},
+        E_mail = #{record.eMail,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.lostfound.lost_found.pojo.User">
+        update user
+        <set>
+            <if test="password != null">
+                Password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                User_Name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                Phone = #{phone,jdbcType=INTEGER},
+            </if>
+            <if test="eMail != null">
+                E_mail = #{eMail,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where User_ID = #{userId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.lostfound.lost_found.pojo.User">
+    update user
+    set Password = #{password,jdbcType=VARCHAR},
+      User_Name = #{userName,jdbcType=VARCHAR},
+      Phone = #{phone,jdbcType=INTEGER},
+      E_mail = #{eMail,jdbcType=VARCHAR}
+    where User_ID = #{userId,jdbcType=INTEGER}
+  </update>
+</mapper>
