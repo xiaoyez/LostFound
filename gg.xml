@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+
+    <context id="DB2Tables" targetRuntime="MyBatis3">
+
+        <!--是否开启评论-->
+        <commentGenerator>
+            <property name="suppressAllComments" value="true" />
+        </commentGenerator>
+        <!--配置数据库信息-->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://Localhost:3306/lost_found"
+                        userId="root"
+                        password="admin">
+        </jdbcConnection>
+
+        <javaTypeResolver >
+            <property name="forceBigDecimals" value="false" />
+        </javaTypeResolver>
+        <!--指定javabean生成的位置-->
+        <javaModelGenerator targetPackage="shengboot.demo.pojo" targetProject=".\src\main\java">
+            <property name="enableSubPackages" value="true" />
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+        <!--指定sql映射生成位置，-->
+        <sqlMapGenerator targetPackage="mappers"  targetProject=".\src\main\resources">
+            <property name="enableSubPackages" value="true" />
+        </sqlMapGenerator>
+        <!--dao接口，mapper-->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="shengboot.demo.dao"  targetProject=".\src\main\java">
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+        <!--table 指定每个表的生成策略-->
+        <table  tableName="lost_information" domainObjectName="LostInformation" >
+
+        </table>
+
+        <table  tableName="message" domainObjectName="Message" >
+
+        </table>
+
+
+
+
+        <table  tableName="pick_information" domainObjectName="PickInformation" >
+
+        </table>
+
+        <table  tableName="user" domainObjectName="User" >
+
+        </table>
+
+
+
+
+
+    </context>
+</generatorConfiguration>
